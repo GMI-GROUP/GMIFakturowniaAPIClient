@@ -9,4 +9,5 @@ test:php-7-2-1:
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - cp .env.dist .env
     - cp phpunit.xml.dist phpunit.xml
+    - composer install
     - php vendor/bin/phpunit
