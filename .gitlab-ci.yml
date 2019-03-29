@@ -1,0 +1,12 @@
+stages:
+  - test
+
+test:php-7-2-1:
+  stage: test
+  image: php:7.2.1
+  script:
+    - apt-get update && apt-get install -y unzip git curl
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - cp .env.dist .env
+    - cp phpunit.xml.dist phpunit.xml
+    - php vendor/bin/phpunit
