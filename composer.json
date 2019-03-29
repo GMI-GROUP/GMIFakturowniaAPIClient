@@ -1,0 +1,24 @@
+{
+    "name": "gmigroup/client-fakturownia",
+    "description": "Client to API fakturowania.pl",
+    "license": "proprietary",
+    "type": "project",
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "guzzle/guzzle": "^3.9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gmigroup\\Client\\Fakturownia\\": "scr/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gmigroup\\Client\\Fakturownia\\Tests\\": "tests/"
+        }
+    }
+}
