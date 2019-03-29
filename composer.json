@@ -13,12 +13,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Gmigroup\\Client\\Fakturownia\\": "scr/"
+            "Gmigroup\\Clients\\Fakturownia\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Gmigroup\\Client\\Fakturownia\\Tests\\": "tests/"
+            "Gmigroup\\Clients\\Fakturownia\\Tests\\": "tests/"
         }
     }
 }
