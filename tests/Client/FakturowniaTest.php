@@ -23,7 +23,6 @@ class FakturowniaTest extends TestCase
     protected const API_USERNAME = 'gmi1';
     protected const EXPECTED_API_URL = 'https://gmi1.fakturownia.pl/';
     protected const API_TOKEN = 'example_Token!@#/gmi1';
-//    protected const API_TOKEN = 'P5nyzWm84Xn9rNP8BCS0/gmi1';
 
     protected const KIND = 'vat';
     protected const SELL_DATE = '2019-04-03';
@@ -87,12 +86,11 @@ class FakturowniaTest extends TestCase
         $this->assertEquals(self::API_TOKEN, $expectedApiToken->getValue($this->fakturownia));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported API method: example
-     */
     public function testRequestExpectInvalidApiMethod(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupperted API method: example');
+
         $this->fakturownia->request('example');
     }
 
