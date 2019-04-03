@@ -89,7 +89,7 @@ class FakturowniaTest extends TestCase
     public function testRequestExpectInvalidApiMethod(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupperted API method: example');
+        $this->expectExceptionMessage('Unsupported API method: example');
 
         $this->fakturownia->request('example');
     }
