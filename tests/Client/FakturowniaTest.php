@@ -6,9 +6,9 @@ use Gmigroup\Clients\Fakturownia\Client\Fakturownia;
 use Gmigroup\Clients\Fakturownia\Entity\Invoice;
 use Gmigroup\Clients\Fakturownia\Exception\InvalidTokenException;
 use Gmigroup\Clients\Fakturownia\Response\FakturowniaResponseInterface;
-use Guzzle\Http\Client;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
@@ -66,9 +66,6 @@ class FakturowniaTest extends TestCase
         parent::setUp();
 
         $this->mockGuzzle = $this->createMock(Client::class);
-        $this->mockGuzzle->expects($this->any())
-            ->method('setBaseUrl')
-            ->willReturn($this->mockGuzzle);
 
         $this->fakturownia = new Fakturownia($this->mockGuzzle, self::API_TOKEN);
     }
@@ -115,7 +112,7 @@ class FakturowniaTest extends TestCase
                 ]
             ]));
         $this->mockGuzzle->expects($this->once())
-            ->method('send')
+            ->method('request')
             ->willReturn($mockResponse);
 
 
@@ -150,7 +147,7 @@ class FakturowniaTest extends TestCase
                 ]
             ]));
         $this->mockGuzzle->expects($this->once())
-            ->method('send')
+            ->method('request')
             ->willReturn($mockResponse);
 
         $fakturownia = new Fakturownia($this->mockGuzzle, self::API_TOKEN);
@@ -176,7 +173,7 @@ class FakturowniaTest extends TestCase
                 ]
             ]));
         $this->mockGuzzle->expects($this->once())
-            ->method('send')
+            ->method('request')
             ->willReturn($mockResponse);
 
         $fakturownia = new Fakturownia($this->mockGuzzle, self::API_TOKEN);

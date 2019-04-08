@@ -5,12 +5,13 @@ namespace Gmigroup\Clients\Fakturownia\Client;
 use Gmigroup\Clients\Fakturownia\Exception\InvalidTokenException;
 use Gmigroup\Clients\Fakturownia\Mapping\Mapping;
 use Gmigroup\Clients\Fakturownia\Response\FakturowniaResponse;
-use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Message\RequestInterface;
+use GuzzleHttp\ClientInterface;
 
 abstract class AbstractFakturownia
 {
     public const GET_METHOD = 'GET';
+    public const POST_METHOD = 'POST';
+    public const DELETE_METHOD = 'DELETE';
 
     /**
      * @var string
@@ -65,7 +66,7 @@ abstract class AbstractFakturownia
 
     private function client(): ClientInterface
     {
-        return $this->guzzle->setBaseUrl($this->baseUrl);
+        return $this->guzzle;
     }
 
     public function request(string $apiMethod, int $id = 0, array $data = []): FakturowniaResponse
@@ -78,7 +79,7 @@ abstract class AbstractFakturownia
 
         $queryParams = [];
 
-        if (RequestInterface::GET === $requestMethod) {
+        if (self::GET_METHOD === $requestMethod) {
             $queryParams = [
                 'api_token' => $this->apiToken,
             ];
@@ -88,19 +89,24 @@ abstract class AbstractFakturownia
 
         $body = [];
 
-        $request = $this->client()->createRequest(
+        $options = [
+            'headers' => $this->headers,
+        ];
+
+        if (!empty($body)) {
+            $options['body'] = $body;
+        }
+
+        $response = $this->client()->request(
             $requestMethod,
             $uri,
-            $this->headers,
-            !empty($body) ? $body : null
+            $options
         );
 
-        $response = $this->client()->send($request);
-
-        return new FakturowniaResponse($response->getStatusCode(), json_decode($response->getBody(true), true));
+        return new FakturowniaResponse($response->getStatusCode(), json_decode($response->getBody(), true));
     }
 
-    protected function prepateUrl(string $apiMethod, int $id, array $queryParams = [])
+    protected function prepateUrl(string $apiMethod, int $id, array $queryParams = []): string
     {
         $uri = sprintf('%s%s', $this->baseUrl, Mapping::ALL_METHODS[$apiMethod]);
         if (!empty($queryParams)) {
@@ -119,11 +125,11 @@ abstract class AbstractFakturownia
 
         switch ($prefixMethod) {
             case 'get':
-                return RequestInterface::GET;
+                return self::GET_METHOD;
             case 'create':
-                return RequestInterface::POST;
+                return self::POST_METHOD;
             case 'delete':
-                return RequestInterface::DELETE;
+                return self::DELETE_METHOD;
             default:
                 throw new \InvalidArgumentException('Undefined request method: ' . $apiMethod);
         }
