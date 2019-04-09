@@ -1,8 +1,8 @@
 {
-    "name": "gmigroup/client-fakturownia",
+    "name": "gmigroup/gmi-client-fakturownia",
     "description": "Client to API fakturowania.pl",
     "license": "proprietary",
-    "type": "project",
+    "type": "library",
     "require": {
         "php": "^7.2",
         "ext-json": "*",
