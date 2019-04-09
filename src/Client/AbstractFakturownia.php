@@ -6,6 +6,7 @@ use Gmigroup\Clients\Fakturownia\Exception\InvalidTokenException;
 use Gmigroup\Clients\Fakturownia\Mapping\Mapping;
 use Gmigroup\Clients\Fakturownia\Response\FakturowniaResponse;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\RequestOptions;
 
 abstract class AbstractFakturownia
 {
@@ -78,23 +79,25 @@ abstract class AbstractFakturownia
         $requestMethod = $this->mapApiMethodsToRequestMethod($apiMethod);
 
         $queryParams = [];
+        $body = [];
 
         if (self::GET_METHOD === $requestMethod) {
             $queryParams = [
                 'api_token' => $this->apiToken,
             ];
+        } else {
+            $body['api_token'] = $this->apiToken;
+            $body = array_merge($body, $data);
         }
 
         $uri = $this->prepateUrl($apiMethod, $id, $queryParams);
-
-        $body = [];
 
         $options = [
             'headers' => $this->headers,
         ];
 
         if (!empty($body)) {
-            $options['body'] = $body;
+            $options[RequestOptions::JSON] = $body;
         }
 
         $response = $this->client()->request(

@@ -8,4 +8,5 @@ interface InvoicePositionInterface
     public function tax(): int;
     public function totalPriceGross(): float;
     public function quantity(): float;
+    public function toArray(): array;
 }

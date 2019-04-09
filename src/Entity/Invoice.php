@@ -12,42 +12,42 @@ final class Invoice implements InvoiceInterface
     /**
      * @var string
      */
-    private $sellDate;
+    private $sell_date;
 
     /**
      * @var string
      */
-    private $issueDate;
+    private $issue_date;
 
     /**
      * @var string
      */
-    private $paymentTo;
+    private $payment_to;
 
     /**
      * @var string
      */
-    private $sellerName;
+    private $seller_name;
 
     /**
      * @var string
      */
-    private $sellerTaxNo;
+    private $seller_tax_no;
 
     /**
      * @var string
      */
-    private $buyerName;
+    private $buyer_name;
 
     /**
      * @var string
      */
-    private $buyerEmail;
+    private $buyer_email;
 
     /**
      * @var string
      */
-    private $buyerTaxNo;
+    private $buyer_tax_no;
 
     /**
      * @var InvoicePositionInterface[]|array
@@ -80,14 +80,14 @@ final class Invoice implements InvoiceInterface
     )
     {
         $this->kind = $kind;
-        $this->sellDate = $sellDate;
-        $this->issueDate = $issueDate;
-        $this->paymentTo = $paymentTo;
-        $this->sellerName = $sellerName;
-        $this->sellerTaxNo = $sellerTaxNo;
-        $this->buyerName = $buyerName;
-        $this->buyerEmail = $buyerEmail;
-        $this->buyerTaxNo = $buyerTaxNo;
+        $this->sell_date = $sellDate;
+        $this->issue_date = $issueDate;
+        $this->payment_to = $paymentTo;
+        $this->seller_name = $sellerName;
+        $this->seller_tax_no = $sellerTaxNo;
+        $this->buyer_name = $buyerName;
+        $this->buyer_email = $buyerEmail;
+        $this->buyer_tax_no = $buyerTaxNo;
 
     }
 
@@ -119,42 +119,42 @@ final class Invoice implements InvoiceInterface
 
     public function sellDate(): string
     {
-        return $this->sellDate;
+        return $this->sell_date;
     }
 
     public function issueDate(): string
     {
-        return $this->issueDate;
+        return $this->issue_date;
     }
 
     public function paymentTo(): string
     {
-        return $this->paymentTo;
+        return $this->payment_to;
     }
 
     public function sellerName(): string
     {
-        return $this->sellerName;
+        return $this->seller_name;
     }
 
     public function sellerTaxNo(): string
     {
-        return $this->sellerTaxNo;
+        return $this->seller_tax_no;
     }
 
     public function buyerName(): string
     {
-        return $this->buyerName;
+        return $this->buyer_name;
     }
 
     public function buyerEmail(): string
     {
-        return $this->buyerEmail;
+        return $this->buyer_email;
     }
 
     public function buyerTaxNo(): string
     {
-        return $this->buyerTaxNo;
+        return $this->buyer_tax_no;
     }
 
     /**
@@ -168,5 +168,25 @@ final class Invoice implements InvoiceInterface
     private function addPosition(array $positionArray): void
     {
         $this->positions[] = InvoicePosition::createFromArray($positionArray);
+    }
+
+    public function toArray(): array
+    {
+        $array = [];
+        foreach ($this as $key => $value) {
+            if (!is_object($value) && !is_array($value)) {
+                $array[$key] = $value;
+            } elseif (is_object($value)) {
+                $array[$key] = $value->toArray();
+            } elseif (is_array($value)) {
+                foreach ($value as $k => $v) {
+                    $array[$key][$k] = $v->toArray();
+                }
+            } else {
+                var_dump(true);
+            }
+        }
+
+        return $array;
     }
 }

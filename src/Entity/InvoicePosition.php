@@ -17,7 +17,7 @@ class InvoicePosition implements InvoicePositionInterface
     /**
      * @var float
      */
-    private $totalPriceGross;
+    private $total_price_gross;
 
     /**
      * @var float
@@ -35,7 +35,7 @@ class InvoicePosition implements InvoicePositionInterface
     {
         $this->name = $name;
         $this->tax = $tax;
-        $this->totalPriceGross = $totalPriceGross;
+        $this->total_price_gross = $totalPriceGross;
         $this->quantity = $quantity;
     }
 
@@ -61,7 +61,7 @@ class InvoicePosition implements InvoicePositionInterface
 
     public function totalPriceGross(): float
     {
-        return $this->totalPriceGross;
+        return $this->total_price_gross;
     }
 
     public function quantity(): float
@@ -69,4 +69,14 @@ class InvoicePosition implements InvoicePositionInterface
         return $this->quantity;
     }
 
+    public function toArray(): array
+    {
+        $array = [];
+
+        foreach ($this as $key => $value) {
+            $array[$key] = $value;
+        }
+
+        return $array;
+    }
 }

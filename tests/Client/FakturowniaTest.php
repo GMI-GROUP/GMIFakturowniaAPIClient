@@ -168,9 +168,7 @@ class FakturowniaTest extends TestCase
         $mockResponse->expects($this->once())
             ->method('getBody')
             ->willReturn(json_encode([
-                [
-                    'id' => 1
-                ]
+                'id' => 1
             ]));
         $this->mockGuzzle->expects($this->once())
             ->method('request')
@@ -183,7 +181,7 @@ class FakturowniaTest extends TestCase
         $this->assertArrayHasKey('code', $createInvoiceResponse->toArray());
         $this->assertArrayHasKey('status', $createInvoiceResponse->toArray());
         $this->assertArrayHasKey('data', $createInvoiceResponse->toArray());
-        $this->assertArrayHasKey('id', ($createInvoiceResponse->toArray())['data'][0]);
+        $this->assertArrayHasKey('id', ($createInvoiceResponse->toArray())['data']);
     }
 
     protected function tearDown(): void

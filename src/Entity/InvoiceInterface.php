@@ -17,4 +17,5 @@ interface InvoiceInterface
      * @return InvoicePositionInterface[]
      */
     public function positions(): array;
+    public function toArray(): array;
 }
