@@ -115,6 +115,10 @@ abstract class AbstractFakturownia
         if (!empty($queryParams)) {
             $uri = sprintf('%s?%s', $uri, http_build_query($queryParams));
         }
+        if (!empty($id)) {
+            $uri = str_replace('[ID]', $id, $uri);
+        }
+
         return $uri;
     }
 
