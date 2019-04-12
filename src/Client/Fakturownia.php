@@ -23,4 +23,9 @@ class Fakturownia extends AbstractFakturownia
     {
         return $this->request(__FUNCTION__, self::WITHOUT_ID, ['invoice' => $invoice->toArray()]);
     }
+
+    public function sendEmailInvoice(int $id): FakturowniaResponseInterface
+    {
+        return $this->request(__FUNCTION__, $id);
+    }
 }

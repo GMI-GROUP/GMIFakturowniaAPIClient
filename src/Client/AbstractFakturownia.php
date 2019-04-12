@@ -118,6 +118,9 @@ abstract class AbstractFakturownia
         if (!empty($id)) {
             $uri = str_replace('[ID]', $id, $uri);
         }
+        if (!empty($id)) {
+            $uri = str_replace('[API_TOKEN]', $this->apiToken, $uri);
+        }
 
         return $uri;
     }
@@ -134,6 +137,7 @@ abstract class AbstractFakturownia
             case 'get':
                 return self::GET_METHOD;
             case 'create':
+            case 'send':
                 return self::POST_METHOD;
             case 'delete':
                 return self::DELETE_METHOD;

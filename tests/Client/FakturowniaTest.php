@@ -184,6 +184,33 @@ class FakturowniaTest extends TestCase
         $this->assertArrayHasKey('id', ($createInvoiceResponse->toArray())['data']);
     }
 
+    /**
+     * @depends testGetInvoices
+     */
+    public function testSendEmail(FakturowniaResponseInterface $testGetInvoices): void
+    {
+        $id = $testGetInvoices->getData()[0]['id'];
+
+        $mockResponse = $this->createMock(Response::class);
+        $mockResponse->expects($this->once())
+            ->method('getStatusCode')
+            ->willReturn(200);
+        $mockResponse->expects($this->once())
+            ->method('getBody')
+            ->willReturn(json_encode([
+                'id' => 1
+            ]));
+        $this->mockGuzzle->expects($this->once())
+            ->method('request')
+            ->willReturn($mockResponse);
+
+        $fakturownia = new Fakturownia($this->mockGuzzle, self::API_TOKEN);
+
+        $createSendResponse = $fakturownia->sendEmailInvoice($id);
+
+        $this->assertEquals('SUCCESS', $createSendResponse->getStatus());
+    }
+
     protected function tearDown(): void
     {
         parent::tearDown();
